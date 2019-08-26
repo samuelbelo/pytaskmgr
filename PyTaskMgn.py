@@ -11,7 +11,7 @@ tela = pygame.display.set_mode((largura_tela, altura_tela))
 
 def mostra_titulo():
     font = pygame.font.Font(None, 24)
-    text = font.render("51", 1, preto)
+    text = font.render("Py Task Manager", 2, preto)
     textpos = text.get_rect(centerx=tela.get_width()/2)
     tela.blit(text, textpos)
     
