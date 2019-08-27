@@ -5,38 +5,36 @@ import psutil
 branco = (255,255,255)
 preto = (0,0,0)
 
+largura_tela, altura_tela = 800,600
+tela = pygame.display.set_mode((largura_tela, altura_tela))
+pygame.display.set_caption("Gerenciador de tarefas")
 pygame.font.init()
 terminou = False
 
-largura_tela, altura_tela = 800,600
-tela = pygame.display.set_mode((largura_tela, altura_tela))
+
+pygame.font.init()
+font = pygame.font.Font(None, 32)
 
 
-def mostra_titulo():
-    font = pygame.font.Font(None, 24)
-    text = font.render("Py Task Manager", 2, preto)
-    textpos = text.get_rect(centerx=tela.get_width()/2)
-    tela.blit(text, textpos)
-
-
-def mostra_memoria():
+def mostra_uso_memoria():
     mem = psutil.virtual_memory()
-    capacidade = round(mem.total / (1024 * 1024 * 1024), 2)
-    fonte_memo = pygame.font.Font(None, 24)
-    """estou recebendo o erro: TypeError: integer argument expected, got float na linha abaixo"""
-    text = fonte_memo.render("Memoria total: ", capacidade, 2, preto)
-    textpos = fonteMemo.get_rect(centerx=tela.get_width() / 2)
-    tela.blit(text,textpos)
+    larg = largura_tela - 2 * 20
+    tela.fill(preto)
+    pygame.draw.rect(tela, azul, (20, 50, larg, 70))
+    larg = larg * mem.percent / 100
+    pygame.draw.rect(tela, vermelho, (20, 50, larg, 70))
+    total = round(mem.total / (1024 * 1024 * 1024), 2)
+    texto_barra = "Uso de Memória (Total: " + str(total) + "GB):"
+    text = font.render(texto_barra, 1, branco)
+    tela.blit(text, (20, 10))
 
 
 while not terminou:
     tela.fill(branco)
-    mostra_titulo()
-    mostra_memoria()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             terminou = True
     pygame.display.update()
-
+    clock.tick(1)
 
 pygame.display.quit()
