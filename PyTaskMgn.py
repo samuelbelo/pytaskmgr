@@ -1,5 +1,4 @@
 import pygame
-import random
 import psutil
 
 branco = (255, 255, 255)
@@ -28,8 +27,8 @@ def mostra_uso_memoria():
     text = font.render(texto_barra, 1, branco)
     tela.blit(text, (20, 10))
 
-cont = 60
 
+cont = 60
 clock = pygame.time.Clock()
 while not terminou:
     for event in pygame.event.get():
