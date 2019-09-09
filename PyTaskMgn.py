@@ -1,19 +1,15 @@
 import pygame
 import psutil
-import Aba
-
-branco = (255, 255, 255)
-preto = (0, 0, 0)
-azul = (0, 0, 255)
-vermelho = (255, 0, 0)
+from aba import Aba
+from constants import(branco, preto, azul, vermelho, largura_tela, altura_tela, dicionario)
 
 
-largura_tela, altura_tela = 800,600
+
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 valores_Bytes = dicionario.values()
 soma = sum(dicionario.values())
 soma = soma/1024/1024
-soma_media = soma/len(dicionario)
+#soma_media = soma/len(dicionario)
 
 pygame.display.set_caption("Gerenciador de tarefas")
 terminou = False
