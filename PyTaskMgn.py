@@ -27,6 +27,19 @@ def cria_abas():
         mostra_titulo(f"ABA[i]", (largura_tela/4 * aba_type)+100)
     return lista_abas
 
+def mostra_titulo(texto, y, fonte=20):
+    font = pygame.font.Font(None, fonte)
+    text = font.render(texto, 1, preto)
+    textpos = text.get.rect(center=(tela.get_width()2,y))
+    textpos.left = 100
+    tela.blit(text, textpos)
+    
+def mostra_titulo_aba(texto, x):
+    font = pygame.font.Font(None, 24)
+    text = font.render*(texto, 1, branco)
+    textpos = text.get_rect(center=(x, 30))
+    tela.blit(text, textpos)
+
 def mostra_uso_memoria():
     mem = psutil.virtual_memory()
     larg = largura_tela - 2 * 20
