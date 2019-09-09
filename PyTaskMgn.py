@@ -8,6 +8,7 @@ vermelho = (255, 0, 0)
 
 largura_tela, altura_tela = 800,600
 tela = pygame.display.set_mode((largura_tela, altura_tela))
+aba_type = 
 pygame.display.set_caption("Gerenciador de tarefas")
 terminou = False
 
@@ -15,10 +16,21 @@ terminou = False
 pygame.font.init()
 font = pygame.font.Font(None, 32)
 
+
+def cria_abas():
+    lista_abas = []
+    for i in range(0,4):
+        aba_type = 1
+        aba = Aba(i, preto)
+        aba.desenha(tela)
+        lista_abas.append(aba)
+        mostra_titulo(f"ABA[i]", (largura_tela/4 * aba_type)+100)
+    return lista_abas
+
 def mostra_uso_memoria():
     mem = psutil.virtual_memory()
     larg = largura_tela - 2 * 20
-    tela.fill(preto)
+    tela.fill(branco)
     pygame.draw.rect(tela, azul, (20, 50, larg, 70))
     larg = larg * mem.percent / 100
     pygame.draw.rect(tela, vermelho, (20, 50, larg, 70))
