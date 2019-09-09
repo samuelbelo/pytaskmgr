@@ -7,8 +7,14 @@ preto = (0, 0, 0)
 azul = (0, 0, 255)
 vermelho = (255, 0, 0)
 
+
 largura_tela, altura_tela = 800,600
 tela = pygame.display.set_mode((largura_tela, altura_tela))
+valores_Bytes = dicionario.values()
+soma = sum(dicionario.values())
+soma = soma/1024/1024
+soma_media = soma/len(dicionario)
+
 pygame.display.set_caption("Gerenciador de tarefas")
 terminou = False
 
@@ -30,7 +36,7 @@ def cria_abas():
 def mostra_titulo(texto, y, fonte=20):
     font = pygame.font.Font(None, fonte)
     text = font.render(texto, 1, preto)
-    textpos = text.get.rect(center=(tela.get_width()2,y))
+    textpos = text.get.rect(center=(tela.get_width()/2,y))
     textpos.left = 100
     tela.blit(text, textpos)
     
@@ -39,6 +45,22 @@ def mostra_titulo_aba(texto, x):
     text = font.render*(texto, 1, branco)
     textpos = text.get_rect(center=(x, 30))
     tela.blit(text, textpos)
+
+#def formata_valores:
+    
+    
+def cria_abas():
+    lista_de_abas = []
+    for i in range(0,4):
+        aba_type = i
+        aba = Aba(i, preto)
+        aba.desenha(tela)
+        lista_de_abas.append(aba)
+        mostra_titulo(f"aba {i}", (largura_tela/4 * aba_type) + 100)
+
+
+tela.fill(branco)
+aba0, aba1, aba2, aba3 = cria_abas()
 
 def mostra_uso_memoria():
     mem = psutil.virtual_memory()
