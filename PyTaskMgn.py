@@ -1,5 +1,6 @@
 import pygame
 import psutil
+import Aba
 
 branco = (255, 255, 255)
 preto = (0, 0, 0)
@@ -8,7 +9,6 @@ vermelho = (255, 0, 0)
 
 largura_tela, altura_tela = 800,600
 tela = pygame.display.set_mode((largura_tela, altura_tela))
-aba_type = 
 pygame.display.set_caption("Gerenciador de tarefas")
 terminou = False
 
