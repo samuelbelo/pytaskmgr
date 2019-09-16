@@ -84,7 +84,7 @@ for i in dicionario.keys():
 
 def mostra_titulo():
     font = pygame.font.Font(None, 24)
-    text = font.render("Teste", 1, preto)
+    text = font.render("Gerenciador de tarefas", 1, preto)
     textpos = text.get_rect(centerx=tela.get_width() / 2, centery=20)
     tela.blit(text, textpos)
 
@@ -167,6 +167,13 @@ mostra_titulo_h2(f"Total de memoria usada: {round(soma, 2)} Mb", 400)
 mostra_titulo_h2(f"Media de memoria usada: {round(soma_media, 2)} Mb", 450)
 mostra_uso_memoria()
 
+#Indica o relogio de aparecimento de quadros do jogo
+clock = pygame.time.Clock()
+#Variavel para contar quantas esperas de 50Hz ou 0,02s
+conta_clocks = 0
+#Variavel para contar regressivamente os quantos segundos se passaram
+conta_segundos = tempo_inicial
+
 
 while not terminou:
 
@@ -185,7 +192,17 @@ while not terminou:
         if event.type == pygame.QUIT:
             terminou = True
 
+#A cada 50 cont_clocks, temos 1s (0,02s x 50 = 1s)
+      if conta_clocks == 50:
+          if conta_segundos >= 0:
+              conta_segundos = conta_segundos - 1
+          conta_clocks = 0   
+
+#Configura 50 atualizações de tela por segundo
+      clock.tick(50)
+
     # Atualiza o desenho na tela
     pygame.display.update()
+    
 # Finaliza a janela do jogo
 pygame.display.quit()
