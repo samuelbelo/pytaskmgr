@@ -57,7 +57,7 @@ for i in dicionario.keys():
 
 def mostra_titulo():
     font = pygame.font.Font(None, 24)
-    text = font.render("Teste", 1, preto)
+    text = font.render("Gerenciador de tarefas", 1, preto)
     textpos = text.get_rect(centerx=tela.get_width() / 2, centery=20)
     tela.blit(text, textpos)
 
