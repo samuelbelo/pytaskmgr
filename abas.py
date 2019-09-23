@@ -1,7 +1,6 @@
-# from cmath import rect
+
 # coding=utf-8
-from prettytable import PrettyTable
-# import psutil
+
 import pygame
 import os
 import pygame.freetype
@@ -214,7 +213,7 @@ for i in range(0, abas_iniciais):
 def mostra_tempo(tempo):
     font = pygame.font.Font(None, 24)
     text = font.render("Tempo: " + str(tempo) + "s", 1, preto)
-    textpos = text.get_rect(center=tela.get_width() / 2 + 200)
+    textpos = text.get_rect(centerx=tela.get_width() / 2)
     tela.blit(text, textpos)
 
 # Variavel para contar quantas esperas de 50Hz ou 0,02s
