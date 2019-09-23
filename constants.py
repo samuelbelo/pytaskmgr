@@ -6,6 +6,7 @@ darkBlue = (2, 24, 89)
 vermelho = (255, 0, 0)
 verde = (68, 184, 181)
 cinza = (222, 224, 224)
+cinza_escuro = (128, 128, 128)
 laranja = (250, 116, 75)
 
 largura_tela, altura_tela = 800, 600
