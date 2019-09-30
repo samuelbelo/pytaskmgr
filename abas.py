@@ -214,7 +214,7 @@ def inicia_aba():
         q.y = 65
 
         lista_areas_abas.append(q)
-        font = pygame.font.Font(None, 24)
+        font = pygame.font.Font("Roboto-Regular.ttf", 24)
         text = font.render(titulo_abas[i], 1, branco)
         textpos = text.get_rect(center=(q.x, q.y))
         tela.blit(text, textpos)
