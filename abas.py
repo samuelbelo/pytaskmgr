@@ -284,3 +284,4 @@ while not terminou:
     pygame.display.update()
 # Finaliza a janela do jogo
 pygame.display.quit()
+
