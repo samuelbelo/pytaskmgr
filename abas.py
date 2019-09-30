@@ -272,7 +272,14 @@ while not terminou:
 
         # Mostra o tempo atualizado
         mostra_tempo(conta_segundos)
+#A cada 50 cont_clocks, temos 1s (0,02s x 50 = 1s)
+        if conta_clocks == 50:
+            if conta_segundos >= 0:
+                conta_segundos = conta_segundos - 1
+            conta_clocks = 0   
 
+#Configura 50 atualizações de tela por segundo
+        clock.tick(50)
     # Atualiza o desenho na tela
     pygame.display.update()
 # Finaliza a janela do jogo
