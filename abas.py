@@ -1,14 +1,13 @@
-
 # coding=utf-8
 
 import pygame
 import os
 import pygame.freetype
-from constants import (branco, preto, azul, azul_2, darkBlue, vermelho, verde, cinza, cinza_escuro,laranja, azul_pantone)
+from constants import (branco, preto, azul, azul_2, darkBlue, vermelho, verde, cinza, cinza_escuro,laranja)
 
 
 
-titulo_abas = ['Aba 1', 'Aba 2', 'Aba 3', 'Aba 4']
+titulo_abas = ['Arquivos', 'Processos', 'Rede 1', 'Rede 2']
 
 # Inicialização da fonte
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -69,9 +68,6 @@ for i in range(len(dicionario)):
 # soma = soma / 1024 / 1024
 # soma_media = soma / len(dicionario)
 
-#criando o relogio
-clock = pygame.time.Clock()
-
 class Abas():
     def __init__(self):
         self.largura = 200
@@ -79,12 +75,12 @@ class Abas():
         self.x = 0
         self.y = 40
         self.area = pygame.Rect(self.x, self.y, self.largura, self.altura)
-        self.cor = azul_pantone
+        self.cor = verde
         self.titulo = titulo_abas[0]
 
     def desenha(self, tela):
         pygame.draw.rect(tela, self.cor, self.area)
-        pygame.draw.rect(tela, branco, self.area, 1)
+        pygame.draw.rect(tela, cinza, self.area, 1)
 
 
 class Painel():
@@ -94,7 +90,7 @@ class Painel():
         self.x = 0
         self.y = 90
         self.area = pygame.Rect(self.x, self.y, self.largura, self.altura)
-        self.cor = branco
+        self.cor = cinza_escuro
         # self.titulo = titulo_abas[0]
 
     def desenha_painel(self, tela):
@@ -107,11 +103,6 @@ for i in range(len(dicionario)):
     valor = dicionario[i].get('rss')
     converter_mb = valor / 1024 / 1024
     dicionario[i] = round(converter_mb, 2)
-
-# for i in dicionario.keys():
-#     valor = dicionario[i]
-#     converter_mb = valor / 1024 / 1024
-#     dicionario[i] = round(converter_mb, 2)
 
 
 def mostra_titulo():
@@ -132,6 +123,24 @@ def mostra_aba_2():
     q.area = pygame.Rect(q.x + 200, q.y, q.largura, q.altura)
     return q.area
 
+
+def conteudo_aba_2():
+    soma_indices = 1
+    # Obtém lista de arquivos e diretórios do diretório corrente:
+    lista = os.listdir()
+    dic = {} # cria dicionário
+    for i in lista: # Varia na lista dos arquivos e diretórios
+        if os.path.isfile(i): # checa se é um arquivo
+            # Cria uma lista para cada arquivo. Esta lista contém o
+            # tamanho, data de criação e data de modificação.
+            dic[i] = []
+            dic[i].append(os.stat(i).st_size) # Tamanho
+            dic[i].append(os.stat(i).st_atime) # Tempo de criação
+            dic[i].append(os.stat(i).st_mtime) # Tempo de modificação
+
+            mostra_titulo_h2(f"{os.stat(i).st_size}", 150 + soma_indices * 15)
+            soma_indices = soma_indices + 1
+        
 
 def mostra_aba_3():
     q = Abas()
@@ -154,7 +163,7 @@ def mostra_titulo_h2(texto, y):
     font = pygame.font.Font(None, 20)
     text = font.render(texto, 1, preto)
     textpos = text.get_rect(center=(tela.get_width() / 2, y + 40))
-    textpos.left = 100
+    textpos.left = 250
     tela.blit(text, textpos)
 
 
@@ -167,13 +176,6 @@ def formata_valores(dicionario, soma):
         mostra_titulo_h2(p, 150 + soma_indices * 15)
         soma_indices = soma_indices + 1
 
-    # for i in dicionario.keys():
-    #     dicionario[i] = round(dicionario[i], 0)
-    #     porcentagem = round((dicionario[i] / soma) * 100, 2)
-    #     p = (f'{soma_indices:^10} {i:^20} {dicionario[i]:^30.2f} {porcentagem:^40.2f}')
-    #     mostra_titulo_h2(p, 150 + soma_indices * 15)
-    #     soma_indices = soma_indices + 1
-
 
 pontos = 'Não'
 indice_lista = 1
@@ -183,31 +185,33 @@ def mostra_click_botao():
     p = Painel()
     p.desenha_painel(tela)
     font = pygame.font.Font(None, 36)
-    text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, preto)
+    text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, branco)
     textpos = text.get_rect(center=(tela.get_width() / 2, tela.get_height() / 2))
     tela.blit(text, textpos)
 
 
-tela.fill(branco)
+tela.fill(cinza)
 mostra_titulo()
-
 
 lista_areas_abas = []
 areas_abas = [mostra_aba_1(), mostra_aba_2(), mostra_aba_3(), mostra_aba_4()]
-for i in range(0, abas_iniciais):
-    q = Abas()
-    q.area = areas_abas[i]
-    q.titulo = titulo_abas[i]
-    q.desenha(tela)
 
-    q.x = i * 200 + 100
-    q.y = 65
 
-    lista_areas_abas.append(q)
-    font = pygame.font.Font(None, 24)
-    text = font.render(titulo_abas[i], 1, branco)
-    textpos = text.get_rect(center=(q.x, q.y))
-    tela.blit(text, textpos)
+def inicia_aba():
+    for i in range(0, abas_iniciais):
+        q = Abas()
+        q.area = areas_abas[i]
+        q.titulo = titulo_abas[i]
+        q.desenha(tela)
+
+        q.x = i * 200 + 100
+        q.y = 65
+
+        lista_areas_abas.append(q)
+        font = pygame.font.Font(None, 24)
+        text = font.render(titulo_abas[i], 1, branco)
+        textpos = text.get_rect(center=(q.x, q.y))
+        tela.blit(text, textpos)
 
 
 def mostra_tempo(tempo):
@@ -221,8 +225,10 @@ conta_clocks = 0
 
 # Variavel para contar quantos segundos se passaram
 conta_segundos = 0
+inicia_aba()
 mostra_tempo(conta_segundos)
-
+#criando o relogio
+clock = pygame.time.Clock()
 
 while not terminou:
     # Checar os eventos do mouse aqui:
@@ -234,9 +240,9 @@ while not terminou:
             # Checa se clicou em algum dos quadrados
             for q in lista_areas_abas:
                 if q.area.collidepoint(pos):
-                    if q == lista_areas_abas[0]:
+                    if q == lista_areas_abas[1]:
                         pontos = 'Sim'
-                        indice_lista = 1
+                        indice_lista = 2
                         mostra_painel(tela)
                         mostra_titulo_h2("ACME Inc. Uso do espaço em disco pelos usuários", 100)
                         mostra_titulo_h2("Nr.            Usuário            Espaço Utilizado            % do uso", 130)
@@ -245,10 +251,13 @@ while not terminou:
                         mostra_titulo_h2(f"Total de memoria usada: {round(soma_rss, 2)} Mb", 650)
                         mostra_titulo_h2(f"Media de memoria usada: {round(soma_media_rss, 2)} Mb", 700)
 
-                    elif q == lista_areas_abas[1]:
+                    elif q == lista_areas_abas[0]:
                         pontos = 'Sim'
-                        indice_lista = 2
-                        mostra_click_botao()
+                        mostra_painel(tela)
+                        mostra_titulo_h2('Tamanho       Data de Modificação       Data de Criação       Nome', 100)
+                        indice_lista = 1
+                        conteudo_aba_2()
+                        #mostra_click_botao()
 
                     elif q == lista_areas_abas[2]:
                         pontos = 'Sim'
@@ -270,18 +279,10 @@ while not terminou:
         if event.type == pygame.QUIT:
             terminou = True
 
-        # Mostra o tempo atualizado
-        mostra_tempo(conta_segundos)
-#A cada 50 cont_clocks, temos 1s (0,02s x 50 = 1s)
-        if conta_clocks == 50:
-            if conta_segundos >= 0:
-                conta_segundos = conta_segundos - 1
-            conta_clocks = 0   
+    # Mostra o tempo atualizado
+    mostra_tempo(conta_segundos)
 
-#Configura 50 atualizações de tela por segundo
-        clock.tick(50)
     # Atualiza o desenho na tela
     pygame.display.update()
 # Finaliza a janela do jogo
 pygame.display.quit()
-
