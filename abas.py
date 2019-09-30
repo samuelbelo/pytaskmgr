@@ -3,7 +3,7 @@
 import pygame
 import os
 import pygame.freetype
-from constants import (branco, preto, azul, azul_2, darkBlue, vermelho, verde, cinza, cinza_escuro,laranja)
+from constants import (branco, preto, azul, azul_2, darkBlue, vermelho, verde, cinza, cinza_escuro,laranja, azul_pantone)
 
 
 
@@ -75,12 +75,12 @@ class Abas():
         self.x = 0
         self.y = 40
         self.area = pygame.Rect(self.x, self.y, self.largura, self.altura)
-        self.cor = verde
+        self.cor = azul_pantone
         self.titulo = titulo_abas[0]
 
     def desenha(self, tela):
         pygame.draw.rect(tela, self.cor, self.area)
-        pygame.draw.rect(tela, cinza, self.area, 1)
+        pygame.draw.rect(tela, branco, self.area, 1)
 
 
 class Painel():
@@ -90,7 +90,7 @@ class Painel():
         self.x = 0
         self.y = 90
         self.area = pygame.Rect(self.x, self.y, self.largura, self.altura)
-        self.cor = cinza_escuro
+        self.cor = branco
         # self.titulo = titulo_abas[0]
 
     def desenha_painel(self, tela):
@@ -184,25 +184,25 @@ indice_lista = 1
 def mostra_click_botao():
     p = Painel()
     p.desenha_painel(tela)
-<<<<<<< Updated upstream
-    font = pygame.font.Font(None, 36)
-    text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, branco)
-=======
+
     font = pygame.font.Font("Roboto-Regular.ttf", 36)
     text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, preto)
->>>>>>> Stashed changes
+
+    font = pygame.font.Font("Roboto-Regular.ttf", 36)
+    text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, preto)
+
     textpos = text.get_rect(center=(tela.get_width() / 2, tela.get_height() / 2))
     tela.blit(text, textpos)
 
 
-tela.fill(cinza)
+tela.fill(branco)
 mostra_titulo()
 
 lista_areas_abas = []
 areas_abas = [mostra_aba_1(), mostra_aba_2(), mostra_aba_3(), mostra_aba_4()]
 
 
-<<<<<<< Updated upstream
+
 def inicia_aba():
     for i in range(0, abas_iniciais):
         q = Abas()
@@ -218,13 +218,13 @@ def inicia_aba():
         text = font.render(titulo_abas[i], 1, branco)
         textpos = text.get_rect(center=(q.x, q.y))
         tela.blit(text, textpos)
-=======
+
     lista_areas_abas.append(q)
     font = pygame.font.Font("Roboto-Regular.ttf", 24)
     text = font.render(titulo_abas[i], 1, branco)
     textpos = text.get_rect(center=(q.x, q.y))
     tela.blit(text, textpos)
->>>>>>> Stashed changes
+
 
 
 def mostra_tempo(tempo):
