@@ -106,7 +106,7 @@ for i in range(len(dicionario)):
 
 
 def mostra_titulo():
-    font = pygame.font.Font(None, 24)
+    font = pygame.font.Font("Roboto-Regular.ttf", 24)
     text = font.render("Gerenciador de Tarefas", 1, preto)
     textpos = text.get_rect(centerx=tela.get_width() / 2, centery=20)
     tela.blit(text, textpos)
@@ -160,7 +160,7 @@ def mostra_painel(tela):
 
 
 def mostra_titulo_h2(texto, y):
-    font = pygame.font.Font(None, 20)
+    font = pygame.font.Font("Roboto-Regular.ttf", 20)
     text = font.render(texto, 1, preto)
     textpos = text.get_rect(center=(tela.get_width() / 2, y + 40))
     textpos.left = 250
@@ -184,8 +184,13 @@ indice_lista = 1
 def mostra_click_botao():
     p = Painel()
     p.desenha_painel(tela)
+<<<<<<< Updated upstream
     font = pygame.font.Font(None, 36)
     text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, branco)
+=======
+    font = pygame.font.Font("Roboto-Regular.ttf", 36)
+    text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, preto)
+>>>>>>> Stashed changes
     textpos = text.get_rect(center=(tela.get_width() / 2, tela.get_height() / 2))
     tela.blit(text, textpos)
 
@@ -197,6 +202,7 @@ lista_areas_abas = []
 areas_abas = [mostra_aba_1(), mostra_aba_2(), mostra_aba_3(), mostra_aba_4()]
 
 
+<<<<<<< Updated upstream
 def inicia_aba():
     for i in range(0, abas_iniciais):
         q = Abas()
@@ -212,10 +218,17 @@ def inicia_aba():
         text = font.render(titulo_abas[i], 1, branco)
         textpos = text.get_rect(center=(q.x, q.y))
         tela.blit(text, textpos)
+=======
+    lista_areas_abas.append(q)
+    font = pygame.font.Font("Roboto-Regular.ttf", 24)
+    text = font.render(titulo_abas[i], 1, branco)
+    textpos = text.get_rect(center=(q.x, q.y))
+    tela.blit(text, textpos)
+>>>>>>> Stashed changes
 
 
 def mostra_tempo(tempo):
-    font = pygame.font.Font(None, 24)
+    font = pygame.font.Font("Roboto-Regular.ttf", 24)
     text = font.render("Tempo: " + str(tempo) + "s", 1, preto)
     textpos = text.get_rect(centerx=tela.get_width() / 2)
     tela.blit(text, textpos)
