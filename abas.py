@@ -138,8 +138,9 @@ def conteudo_aba_2():
             dic[i].append(os.stat(i).st_atime) # Tempo de criação
             dic[i].append(os.stat(i).st_mtime) # Tempo de modificação
 
-            mostra_titulo_h2(f"{os.stat(i).st_size}", 150 + soma_indices * 15)
+            mostra_titulo_h2(f"{os.stat(i).st_size}", 150 + soma_indices * 20)
             soma_indices = soma_indices + 1
+            print(dic)
         
 
 def mostra_aba_3():
@@ -219,11 +220,6 @@ def inicia_aba():
         textpos = text.get_rect(center=(q.x, q.y))
         tela.blit(text, textpos)
 
-    lista_areas_abas.append(q)
-    font = pygame.font.Font("Roboto-Regular.ttf", 24)
-    text = font.render(titulo_abas[i], 1, branco)
-    textpos = text.get_rect(center=(q.x, q.y))
-    tela.blit(text, textpos)
 
 
 
