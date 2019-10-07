@@ -185,13 +185,10 @@ indice_lista = 1
 def mostra_click_botao():
     p = Painel()
     p.desenha_painel(tela)
-
+    font = pygame.font.Font(None, 36)
+    text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, branco)
     font = pygame.font.Font("Roboto-Regular.ttf", 36)
     text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, preto)
-
-    font = pygame.font.Font("Roboto-Regular.ttf", 36)
-    text = font.render(f'Clicou na Aba {indice_lista}? {pontos}', 1, preto)
-
     textpos = text.get_rect(center=(tela.get_width() / 2, tela.get_height() / 2))
     tela.blit(text, textpos)
 
@@ -220,6 +217,11 @@ def inicia_aba():
         textpos = text.get_rect(center=(q.x, q.y))
         tela.blit(text, textpos)
 
+    lista_areas_abas.append(q)
+    font = pygame.font.Font("Roboto-Regular.ttf", 24)
+    text = font.render(titulo_abas[i], 1, branco)
+    textpos = text.get_rect(center=(q.x, q.y))
+    tela.blit(text, textpos)
 
 
 
@@ -228,6 +230,7 @@ def mostra_tempo(tempo):
     text = font.render("Tempo: " + str(tempo) + "s", 1, preto)
     textpos = text.get_rect(centerx=tela.get_width() / 2)
     tela.blit(text, textpos)
+    
 
 # Variavel para contar quantas esperas de 50Hz ou 0,02s
 conta_clocks = 0
@@ -294,4 +297,8 @@ while not terminou:
     # Atualiza o desenho na tela
     pygame.display.update()
 # Finaliza a janela do jogo
+
 pygame.display.quit()
+
+pygame.display.quit()
+
