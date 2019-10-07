@@ -164,7 +164,7 @@ def mostra_titulo_h2(texto, y):
     font = pygame.font.Font("Roboto-Regular.ttf", 20)
     text = font.render(texto, 1, preto)
     textpos = text.get_rect(center=(tela.get_width() / 2, y + 40))
-    textpos.left = 250
+    textpos.left = 100
     tela.blit(text, textpos)
 
 
@@ -224,7 +224,7 @@ def inicia_aba():
 
 
 def mostra_tempo(tempo):
-    font = pygame.font.Font("Roboto-Regular.ttf", 24)
+    font = pygame.font.Font("Roboto-Regular.ttf", 18)
     text = font.render("Tempo: " + str(tempo) + "s", 1, preto)
     textpos = text.get_rect(centerx=tela.get_width() / 2)
     tela.blit(text, textpos)
