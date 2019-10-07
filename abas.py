@@ -1,6 +1,10 @@
 # coding=utf-8
 
 import pygame
+import subprocess
+import psutil
+#import pid
+import time
 import os
 import pygame.freetype
 from constants import (branco, preto, azul, azul_2, darkBlue, vermelho, verde, cinza, cinza_escuro,laranja, azul_pantone)
@@ -19,11 +23,12 @@ terminou = False
 largura_tela, altura_tela = 800, 800
 abas_iniciais = 4
 tela = pygame.display.set_mode((largura_tela, altura_tela))
+pid = subprocess.Popen("calc").pid
 
 # dicionario = {'alexandre': 456123789, 'anderson': 1245698456,
 #               'antonio': 123456456, 'carlos': 91257581,
 #               'cesar': 987458, 'rosemary': 789456125}
-dicionario =  [{'rss': 113979392, 'vms': 114520064, 'pid': 88, 'nome': 'Registry', 'percento': 379.85},
+"""dicionario =  [{'rss': 113979392, 'vms': 114520064, 'pid': 88, 'nome': 'Registry', 'percento': 379.85},
               {'rss': 35794944, 'vms': 20525056, 'pid': 948, 'nome': 'chrome.exe', 'percento': 50.7},
               {'rss': 34332672, 'vms': 17887232, 'pid': 984, 'nome': 'svchost.exe', 'percento': 44.54},
               {'rss': 255979520, 'vms': 22016000, 'pid': 1012, 'nome': 'fontdrvhost.exe', 'percento': 977.67},
@@ -52,16 +57,16 @@ dicionario =  [{'rss': 113979392, 'vms': 114520064, 'pid': 88, 'nome': 'Registry
               {'rss': 48463872, 'vms': 38649856, 'pid': 9120, 'nome': 'dwm.exe', 'percento': 104.03},
               {'rss': 192319488, 'vms': 167886848, 'pid': 9220, 'nome': 'chrome.exe', 'percento': 709.66},
               {'rss': 67276800, 'vms': 41480192, 'pid': 9784, 'nome': 'chrome.exe', 'percento': 183.23},
-              {'rss': 60825600, 'vms': 35332096, 'pid': 9972, 'nome': 'chrome.exe', 'percento': 156.07}]
+              {'rss': 60825600, 'vms': 35332096, 'pid': 9972, 'nome': 'chrome.exe', 'percento': 156.07}]"""
 
 
 # Soma e Cálcula as Médias das chaves dos dicionários em MB
-for i in range(len(dicionario)):
+"""for i in range(len(dicionario)):
     teste = [dicionario[i].setdefault('rss'), dicionario[i].setdefault('vms'), dicionario[i].setdefault('pid'),
       dicionario[i].setdefault('percento')]
     soma_rss, soma_vms = teste[0], teste[1]
     soma_rss, soma_vms = soma_rss / 1024 / 1024, soma_vms / 1024 / 1024
-    soma_media_rss, soma_media_vss = soma_rss / len(dicionario), soma_vms / len(dicionario)
+    soma_media_rss, soma_media_vss = soma_rss / len(dicionario), soma_vms / len(dicionario)"""
 
 # valores_Bytes = dicionario.values()
 # soma = sum(dicionario.values())
@@ -99,10 +104,10 @@ class Painel():
 
 
 # Converte os valores das chaves do dicionário em MB
-for i in range(len(dicionario)):
+"""for i in range(len(dicionario)):
     valor = dicionario[i].get('rss')
     converter_mb = valor / 1024 / 1024
-    dicionario[i] = round(converter_mb, 2)
+    dicionario[i] = round(converter_mb, 2)"""
 
 
 def mostra_titulo():
@@ -140,7 +145,40 @@ def conteudo_aba_2():
 
             mostra_titulo_h2(f"{os.stat(i).st_size}", 150 + soma_indices * 20)
             soma_indices = soma_indices + 1
-            print(dic)
+            
+                
+def conteudo_processos(pid):
+    try:
+        p = psutil.Process(pid)
+        texto = '{:6}'.format(pid)
+        texto = texto + '{:11}'.format(p.num_threads())
+        texto = texto + " " + time.ctime(p.create_time()) + " "
+        texto = texto + '{:8.2f}'.format(p.cpu_times().user)
+        texto = texto + '{:8.2f}'.format(p.cpu_times().system)
+        texto = texto + '{:10.2f}'.format(p.memory_percent()) + " MB"
+        rss = p.memory_info().rss/1024/1024
+        texto = texto + '{:10.2f}'.format(rss) + " MB"
+        vms = p.memory_info().vms/1024/1024
+        texto = texto + '{:10.2f}'.format(vms) + " MB"
+        texto = texto + " " + p.exe()
+        print(texto)
+    except:
+        pass
+    titulo = '{:^7}'.format("PID")
+    titulo = titulo + '{:^11}'.format("# Threads")
+    titulo = titulo + '{:^26}'.format("Criação")
+    titulo = titulo + '{:^9}'.format("T. Usu.")
+    titulo = titulo + '{:^9}'.format("T. Sis.")
+    titulo = titulo + '{:^12}'.format("Mem. (%)")
+    titulo = titulo + '{:^12}'.format("RSS")
+    titulo = titulo + '{:^12}'.format("VMS")
+    titulo = titulo + " Executável"
+    print(titulo)
+    
+    lista = psutil.pids()
+
+    for i in lista:
+        conteudo_processos(i)
         
 
 def mostra_aba_3():
@@ -256,12 +294,13 @@ while not terminou:
                         pontos = 'Sim'
                         indice_lista = 2
                         mostra_painel(tela)
-                        mostra_titulo_h2("ACME Inc. Uso do espaço em disco pelos usuários", 100)
-                        mostra_titulo_h2("Nr.            Usuário            Espaço Utilizado            % do uso", 130)
-                        formata_valores(dicionario, soma_rss)
+                        conteudo_processos(pid)
+                        #mostra_titulo_h2("ACME Inc. Uso do espaço em disco pelos usuários", 100)
+                        #ostra_titulo_h2("Nr.            Usuário            Espaço Utilizado            % do uso", 130)
+                        #formata_valores(dicionario, soma_rss)
                         # formata_valores()
-                        mostra_titulo_h2(f"Total de memoria usada: {round(soma_rss, 2)} Mb", 650)
-                        mostra_titulo_h2(f"Media de memoria usada: {round(soma_media_rss, 2)} Mb", 700)
+                        #mostra_titulo_h2(f"Total de memoria usada: {round(soma_rss, 2)} Mb", 650)
+                        #mostra_titulo_h2(f"Media de memoria usada: {round(soma_media_rss, 2)} Mb", 700)
 
                     elif q == lista_areas_abas[0]:
                         pontos = 'Sim'
