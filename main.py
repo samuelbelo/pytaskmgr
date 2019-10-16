@@ -1,6 +1,9 @@
 import pygame
+import psutil
+import time
 import os
 from cores import *
+from teste import *
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'                                  #inicializa a tela no centro display
 titulo_abas = ['Arquivos', 'Processos', 'Rede 1', 'Rede 2']
@@ -42,22 +45,22 @@ def mostra_titulo_teste():
 
 def desenha_abas():
     for i in range(4):
-        x = i * 200
-        pygame.draw.rect(tela, darkBlue, (x, 50, 200, 50), 0)
-        a = pygame.draw.rect(tela, darkBlue, (x, 50, 200, 50), 0)
-        pygame.draw.rect(tela, branco, (x, 50, 200, 50), 1)
-        mostra_titulo_abas(i, x)
+        eixo_x = i * 200
+        pygame.draw.rect(tela, darkBlue, (eixo_x, 50, 200, 50), 0)
+        a = pygame.draw.rect(tela, darkBlue, (eixo_x, 50, 200, 50), 0)
+        pygame.draw.rect(tela, branco, (eixo_x, 50, 200, 50), 1)
+        mostra_titulo_abas(i, eixo_x)
         lista.append(a)
 
 
-def mostra_titulo_abas(i, x):
+def mostra_titulo_abas(i, eixo_x):
     font = pygame.font.Font(None, 24)
     text = font.render(titulo_abas[i], 1, branco)
-    textpos = text.get_rect(centerx=x + 100, centery=75)
+    textpos = text.get_rect(centerx=eixo_x + 100, centery=75)
     tela.blit(text, textpos)
 
 
-def mostra_titulo_h2(texto, y):
+def mostra_titulo_h2(tela, texto, x, y):
     font = pygame.font.Font(None, 20)
     text = font.render(texto, 1, preto)
     textpos = text.get_rect(centerx=50, centery=150)
@@ -67,6 +70,30 @@ def mostra_titulo_h2(texto, y):
 
 def desenha_tela_inicial():
     desenha_abas()
+    
+    
+
+
+soma_rss = sum([i["RSS"] for i in lista_dicionarios])/1024/1024/1024
+soma_vms = sum([i["VMS"] for i in lista_dicionarios])/1024/1024/1024
+soma = 0
+soma_media = 0
+
+def formata_valores():
+    soma_indices = 1
+    for p in psutil.process_iter():
+        if p.status() == "running":
+            vms = p.memory_info().vms/1024/1024
+            rss = p.memory_info().rss/1024/1024
+            mostra_titulo_h2(tela, f'{p.pid}', 100, 160 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{p.name()}', 160, 160 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round(vms, 2)}MB', 400, 160 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round(rss, 2)}MB', 500, 160 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round((vms/(soma_vms*1024)) * 100, 2)}%', 620, 160 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round((rss/(soma_rss*1024)) * 100, 2)}%', 700, 160 + soma_indices * 22)
+            soma_indices = soma_indices + 1        
+
+
 
 
 conta_clocks = 0
@@ -83,10 +110,12 @@ while not terminou:
             for q in lista:
                 if q.collidepoint(pos):
                     if q == lista[0]:
-                        mostra_titulo_teste()
+                        tela.fill(cinza)
                         break
                     elif q == lista[1]:
-                        tela.fill(cinza_escuro)
+                        mostra_titulo_h2(f'{formata_valores()}', 150)
+                        print(lista_dicionarios)
+                        #tela.fill(cinza_escuro)
                         break
                     elif q == lista[2]:
                         mostra_titulo_teste()
