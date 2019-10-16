@@ -1,0 +1,38 @@
+﻿# coding=utf-8
+
+os.name -> obter o nome do sitema operacional
+os.getlogin() -> obter nome de usuario atual
+os.environ -> imprime as variaveis de ambiente do sistema
+os.eviron['nome_variavel'] -> imprime o conteado da variavel especifica
+os.getcwd() -> Obtem o caminho completo da pasta usada atualamente
+os.getpid() -> Obtem o ID (numero) do processo em execucao
+os.mkdir('nome_diretorio') -> cria um novo diretorio(pasta) no os.getcwd
+os.rename('nome_diretorio', 'novo_nome') -> renomeia um diretorio(pasta)  
+os.rmdir('nome_diretorio') -> remove um diretorio(pasta)
+os.listdir('diretorio') -> Lista os arquivos de um diretorio especificado
+os.listdir() -> Lista os arquivos do diretorio atual
+os.chdir('..') -> Muda o diretorio para 1 anterior ao pesquisado
+os.path.exists('nome_diretorio') -> Verifica se o diretorio existe e retorna True ou False
+os.path.isfile('nome_arquivo ou nome_diretorio') -> Verifica se e um arquivo ou diretorio
+os.path.basename('caminho_completo\\nome_arquivo') -> obter apenas o nome do arquivo
+os.path.dirname('nome_arquivo') -> Obtem o nome do arquivo.
+os.path.dirname('caminho_completo\\nome_arquivo') -> Obtem o diretório completo do arquivo
+os.path.abspath('nome_arquivo') -> Retorna o caminho absoluto de um arquivo
+os.path.split('caminho_completo\\nome_arquivo')
+os.path.join("C:", "Users", "Teste", "arq_texto.txt") -> Transforma em caminho absoluto do diretorio
+os.path.join(os.getcwd(), 'nome_arquivo') -> Outra forma de transformar em caminho absoluto do diretorio
+os.stat('caminho_completo' ou 'nome_arquivo') -> Obtem informações de status de um arquivo.
+	st_mode: bits de permissão de acesso (mais sentido para Unix).
+	st_ino: numero do inode.
+	st_dev: numero de identificação da unidade raiz de armazenamento.
+	St_nlink:  numero de links (hard links).
+	st_uid: identificador do usuario proprietario.
+	st_gid: identificador do grupo proprietário (Unix).
+	st_size: tamanho do arquivo, em bytes.
+	st_atime: tempo de acesso mais recente expresso em nanosegundos.
+	st_mtime: tempo de modificacao de conteudo mais recente expresso em nanosegundos.
+	st_ctime: tempo de modificacao de metadados mais recente expresso em nanosegundos.
+
+status = os.stat('os_instruções.txt')
+status.st_size -> retorna o tamanho do arquivo
+time.ctime(status.st_mtime) -> Retorna a data e o tempo completo da ultima modificacao do arquivo. 
