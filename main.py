@@ -5,6 +5,7 @@ import psutil
 from dicionario import *
 from cores import *
 from aba3 import *
+#from aba4 import *
 # from aba3 import mostra_titulo_aba3
 
 
@@ -169,6 +170,39 @@ def conteudo_aba2():
                 mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].raddr)}', 1100, -30 + soma_indices * 22)
             soma_indices += 1
 
+def conteudo_aba4():
+    soma_indices = 1
+    import matplotlib
+    import matplotlib.pyplot as plt
+    matplotlib.use("Agg")
+    import matplotlib.backends.backend_agg as agg
+    mostra_titulo_h2(tela, "Gráfico de Processos PID x VMS", 500, -40)
+    processos_infos = []
+    for processos in psutil.process_iter():
+        processos_infos.append(
+            {"pid" :processos.pid,
+             "nome" : processos.name(),
+             "rss" : processos.memory_info().rss,
+             "vms" : processos.memory_info().vms})
+    names = [info["pid"] for info in processos_infos]
+    values = [info["vms"]/1024/1024 for info in processos_infos]
+    
+    fig, axs = plt.subplots()
+    lines, = axs.plot(names, values)
+    plt.xlabel("pid")
+    plt.ylabel("vms")
+    plt.setp(lines, color = 'b', linewidth=1.0)
+    fig.suptitle('PID X VMS')
+
+    canvas = agg.FigureCanvasAgg(fig)
+    canvas.draw()
+    tamanho = canvas.get_width_height()
+    renderer = canvas.get_renderer()
+    raw_data = renderer.tostring_rgb()
+
+    superficie_grafico = pygame.image.fromstring(raw_data, tamanho, "RGB")
+    tela.blit(superficie_grafico, (0,150))
+
 
 conta_clocks = 0
 conta_segundos = 0
@@ -200,7 +234,7 @@ while not terminou:
                         break
                     elif q == lista[3]:
                         aba1 = False
-                        tela.fill(branco)
+                        conteudo_aba4()
                         break
 
     if aba1 is True:
