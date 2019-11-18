@@ -202,6 +202,8 @@ while not terminou:
                         aba1 = False
                         tela.fill(branco)
                         break
+    #tela.scroll(10,10)
+    #tela.blit(area,((200 + 5) % 720, (200 + 5) % 720))
 
     if aba1 is True:
         conteudo_aba1()
