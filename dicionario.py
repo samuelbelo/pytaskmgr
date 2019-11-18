@@ -9,5 +9,3 @@ for p in psutil.process_iter():
          "RSS": p.memory_info().rss,
          "VMS": p.memory_info().vms,
          "Status": p.status()})
-
-print(lista_dicionarios)
