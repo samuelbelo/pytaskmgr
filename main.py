@@ -182,6 +182,7 @@ def conteudo_aba2():
 
 def conteudo_aba3():
     soma_indices = 1
+    pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
     import matplotlib
     import matplotlib.pyplot as plt
     matplotlib.use("Agg")
