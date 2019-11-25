@@ -221,7 +221,7 @@ conta_segundos = 0
 conta_minutos = 0
 lista = []
 aba1 = False
-
+aba3 = False
 terminou = False
 #variável para manter a tela aberta
 while not terminou:
@@ -245,11 +245,15 @@ while not terminou:
                         break
                     elif q == lista[3]:
                         aba1 = False
+                        aba3 = True
                         conteudo_aba3()
                         break
 
     if aba1 is True:
         conteudo_aba1()
+
+    if aba3 is True:
+        conteudo_aba3()
 
     if event.type == pygame.QUIT:                                   #se clicar no X fecha a tela
         terminou = True
