@@ -201,7 +201,7 @@ def conteudo_aba4():
     raw_data = renderer.tostring_rgb()
 
     superficie_grafico = pygame.image.fromstring(raw_data, tamanho, "RGB")
-    tela.blit(superficie_grafico, (0,150))
+    tela.blit(superficie_grafico, (280,200))
 
 
 conta_clocks = 0
