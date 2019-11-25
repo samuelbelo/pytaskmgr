@@ -5,7 +5,6 @@ import psutil
 from dicionario import *
 from cores import *
 from aba3 import *
-#from aba4 import *
 # from aba3 import mostra_titulo_aba3
 
 
@@ -51,7 +50,6 @@ def mostra_titulo(tela, texto, x, y):
 def desenha_abas():
     for i in range(4):
         x = i * 300
-        # pygame.draw.rect(tela, darkBlue, (x, 50, 200, 50), 0)
         a = pygame.draw.rect(tela, darkBlue, (x, 50, 300, 50), 0)
         pygame.draw.rect(tela, branco, (x, 50, 300, 50), 1)
         mostra_titulo_abas(i, x)
@@ -81,15 +79,13 @@ titulo_arquivo = ['Arquivo', 'Tamanho', 'Criado em', 'Última Modificação']
 def conteudo_aba0():
     soma = 1
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
-    mostra_titulo_h2(tela, f'{titulo_arquivo[0]}', x=25, y=5)
-    mostra_titulo_h2(tela, f'{titulo_arquivo[1]}', x=200, y=5)
-    mostra_titulo_h2(tela, f'{titulo_arquivo[2]}', x=400, y=5)
-    mostra_titulo_h2(tela, f'{titulo_arquivo[3]}', x=600, y=5)
+    mostra_titulo(tela, f'{titulo_arquivo[0]}', x=25, y=5)
+    mostra_titulo(tela, f'{titulo_arquivo[1]}', x=200, y=5)
+    mostra_titulo(tela, f'{titulo_arquivo[2]}', x=400, y=5)
+    mostra_titulo(tela, f'{titulo_arquivo[3]}', x=600, y=5)
 
     for i in range(len(arquivo)):
         status_arquivo = os.stat(f'{arquivo[i]}')
-        # data_criacao = time.localtime(status_arquivo.st_ctime)
-        # ultima_modificacao = time.localtime(status_arquivo.st_mtime)
         mostra_titulo_h2(tela, f'{arquivo[i]}', x=25, y=soma * 30)
         mostra_titulo_h2(tela, f'{status_arquivo.st_size/1024:.2f} KBytes', x=200, y=soma*30)
         mostra_titulo_h2(tela, f'{time.strftime("%d/%m/%Y     %H:%M:%S", time.localtime(status_arquivo.st_ctime))}',
@@ -110,14 +106,13 @@ titulo_conteudo_aba2 = ['PID', 'End.', 'Tipo', 'Status', 'Endereço Local', 'Por
 
 def conteudo_aba1():
     soma_indices = 1
-    # mostra_tempo(tempo, minuto)
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
-    mostra_titulo_h2(tela, titulo_conteudo_aba1[0], 50, -40)
-    mostra_titulo_h2(tela, titulo_conteudo_aba1[1], 150, -40)
-    mostra_titulo_h2(tela, titulo_conteudo_aba1[2], 320, -40)
-    mostra_titulo_h2(tela, titulo_conteudo_aba1[3], 470, -40)
-    mostra_titulo_h2(tela, titulo_conteudo_aba1[4], 600, -40)
-    mostra_titulo_h2(tela, titulo_conteudo_aba1[5], 700, -40)
+    mostra_titulo(tela, titulo_conteudo_aba1[0], 50, -40)
+    mostra_titulo(tela, titulo_conteudo_aba1[1], 150, -40)
+    mostra_titulo(tela, titulo_conteudo_aba1[2], 320, -40)
+    mostra_titulo(tela, titulo_conteudo_aba1[3], 470, -40)
+    mostra_titulo(tela, titulo_conteudo_aba1[4], 600, -40)
+    mostra_titulo(tela, titulo_conteudo_aba1[5], 700, -40)
 
     for p in psutil.process_iter():
         if p.status() == "running":
@@ -138,9 +133,7 @@ titulo_conteudo_aba2 = ['PID', 'End.', 'Tipo', 'Status', 'Endereço Local', 'Por
 
 
 def conteudo_aba2():
-    print(lista_raddr)
     soma_indices = 1
-    # mostra_tempo(tempo, minuto)
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
     mostra_titulo(tela, titulo_conteudo_aba2[0], 50, -40)
     mostra_titulo(tela, titulo_conteudo_aba2[1], 150, -40)
@@ -150,13 +143,28 @@ def conteudo_aba2():
     mostra_titulo(tela, titulo_conteudo_aba2[5], 650, -40)
     mostra_titulo(tela, titulo_conteudo_aba2[6], 750, -40)
     mostra_titulo(tela, titulo_conteudo_aba2[7], 1100, -40)
-
-    for i in range(len(lista_pid)):
-        p = psutil.Process(lista_pid[i])
+    l_pid = list(set(lista_pid))
+    
+    for i in range(len(l_pid)):
+        p = psutil.Process(l_pid[i])
         conn = p.connections()
         mostra_titulo_h2(tela, f'{p.pid}', 50, -30 + soma_indices * 22)
+        
+        mostra_titulo_h2(tela, f'{obtem_nome_familia(conn[0].family)}', 150, -30 + soma_indices * 22)
+        mostra_titulo_h2(tela, f'{obtem_tipo_socket(conn[0].type)}', 200, -30 + soma_indices * 22)
+        mostra_titulo_h2(tela, f'{conn[0].status}', 250, -30 + soma_indices * 22)
+        mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[0].laddr[0])}', 350, -30 + soma_indices * 22)
+        mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[0].laddr[1])}', 650, -30 + soma_indices * 22)
+        if obtem_dados_conexao_remota(conn[0].raddr) != '-':
+            mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[0].raddr[0])}', 750, -30 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[0].raddr[1])}', 1100, -30 + soma_indices * 22)
+        else:
+            mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[0].raddr)}', 750, -30 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[0].raddr)}', 1100, -30 + soma_indices * 22)
+        
+        soma_indices += 1
 
-        for t in range(len(conn)):
+        '''for t in range(len(conn)):
             mostra_titulo_h2(tela, f'{obtem_nome_familia(conn[t].family)}', 150, -30 + soma_indices * 22)
             mostra_titulo_h2(tela, f'{obtem_tipo_socket(conn[t].type)}', 200, -30 + soma_indices * 22)
             mostra_titulo_h2(tela, f'{conn[t].status}', 250, -30 + soma_indices * 22)
@@ -168,9 +176,11 @@ def conteudo_aba2():
             else:
                 mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].raddr)}', 750, -30 + soma_indices * 22)
                 mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].raddr)}', 1100, -30 + soma_indices * 22)
-            soma_indices += 1
+            soma_indices += 1'''
 
-def conteudo_aba4():
+
+
+def conteudo_aba3():
     soma_indices = 1
     import matplotlib
     import matplotlib.pyplot as plt
@@ -201,7 +211,8 @@ def conteudo_aba4():
     raw_data = renderer.tostring_rgb()
 
     superficie_grafico = pygame.image.fromstring(raw_data, tamanho, "RGB")
-    tela.blit(superficie_grafico, (280,200))
+    tela.blit(superficie_grafico, (largura_tela/2 - tamanho[0]/2, 150))
+    #(largura_tela/2 - tamanho[0]/2, 150)
 
 
 conta_clocks = 0
@@ -230,14 +241,11 @@ while not terminou:
                     elif q == lista[2]:
                         aba1 = False
                         conteudo_aba2()
-                        # mostra_titulo_aba3('Vai que colaaaaaaaaaaa?!')
                         break
                     elif q == lista[3]:
                         aba1 = False
-                        conteudo_aba4()
+                        conteudo_aba3()
                         break
-    #tela.scroll(10,10)
-    #tela.blit(area,((200 + 5) % 720, (200 + 5) % 720))
 
     if aba1 is True:
         conteudo_aba1()
