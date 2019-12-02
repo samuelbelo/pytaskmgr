@@ -164,22 +164,7 @@ def conteudo_aba2():
         
         soma_indices += 1
 
-        '''for t in range(len(conn)):
-            mostra_titulo_h2(tela, f'{obtem_nome_familia(conn[t].family)}', 150, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{obtem_tipo_socket(conn[t].type)}', 200, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{conn[t].status}', 250, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].laddr[0])}', 350, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].laddr[1])}', 650, -30 + soma_indices * 22)
-            if obtem_dados_conexao_remota(conn[t].raddr) != '-':
-                mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].raddr[0])}', 750, -30 + soma_indices * 22)
-                mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].raddr[1])}', 1100, -30 + soma_indices * 22)
-            else:
-                mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].raddr)}', 750, -30 + soma_indices * 22)
-                mostra_titulo_h2(tela, f'{obtem_dados_conexao_local(conn[t].raddr)}', 1100, -30 + soma_indices * 22)
-            soma_indices += 1'''
-
-
-
+        
 def conteudo_aba3():
     soma_indices = 1
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
@@ -213,7 +198,7 @@ def conteudo_aba3():
 
     superficie_grafico = pygame.image.fromstring(raw_data, tamanho, "RGB")
     tela.blit(superficie_grafico, (largura_tela/2 - tamanho[0]/2, 150))
-    #(largura_tela/2 - tamanho[0]/2, 150)
+    
 
 
 conta_clocks = 0
