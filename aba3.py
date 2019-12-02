@@ -34,12 +34,9 @@ def obtem_tipo_socket(tipo):
 def obtem_dados_conexao_local(laddr):
     if laddr != ():
         return laddr
-        print(laddr)
 
     else:
         return '-'
-        # return '-'
-
 
 
 def obtem_dados_conexao_remota(raddr):
@@ -55,4 +52,3 @@ lista_pid = []
 for i in psutil.net_connections():
     lista_pid.append(i.pid)
 
-print(lista_pid[0:35])

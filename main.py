@@ -5,6 +5,7 @@ import psutil
 from dicionario import *
 from cores import *
 from aba3 import *
+from aba4 import grafic
 # from aba3 import mostra_titulo_aba3
 
 
@@ -76,7 +77,7 @@ arquivo = os.listdir(caminho_pasta)
 titulo_arquivo = ['Arquivo', 'Tamanho', 'Criado em', 'Última Modificação']
 
 
-def conteudo_aba0():
+def conteudo_aba1():
     soma = 1
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
     mostra_titulo(tela, f'{titulo_arquivo[0]}', x=25, y=5)
@@ -104,7 +105,7 @@ titulo_conteudo_aba1 = ['Processo', 'Nome', 'Tamanho vms', 'Tamanho rss', '% vms
 titulo_conteudo_aba2 = ['PID', 'End.', 'Tipo', 'Status', 'Endereço Local', 'Porta L.', 'Endereço Remoto', 'Porta R.']
 
 
-def conteudo_aba1():
+def conteudo_aba2():
     soma_indices = 1
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
     mostra_titulo(tela, titulo_conteudo_aba1[0], 50, -40)
@@ -132,7 +133,7 @@ def conteudo_aba1():
 titulo_conteudo_aba2 = ['PID', 'End.', 'Tipo', 'Status', 'Endereço Local', 'Porta L.', 'Endereço Remoto', 'Porta R.']
 
 
-def conteudo_aba2():
+def conteudo_aba3():
     soma_indices = 1
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
     mostra_titulo(tela, titulo_conteudo_aba2[0], 50, -40)
@@ -164,42 +165,11 @@ def conteudo_aba2():
         
         soma_indices += 1
 
-        
-def conteudo_aba3():
-    soma_indices = 1
-    pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
-    import matplotlib
-    import matplotlib.pyplot as plt
-    matplotlib.use("Agg")
-    import matplotlib.backends.backend_agg as agg
+
+def conteudo_aba4():
     mostra_titulo_h2(tela, "Gráfico de Processos PID x VMS", 500, -40)
-    processos_infos = []
-    for processos in psutil.process_iter():
-        processos_infos.append(
-            {"pid" :processos.pid,
-             "nome" : processos.name(),
-             "rss" : processos.memory_info().rss,
-             "vms" : processos.memory_info().vms})
-    names = [info["pid"] for info in processos_infos]
-    values = [info["vms"]/1024/1024 for info in processos_infos]
-    
-    fig, axs = plt.subplots()
-    lines, = axs.plot(names, values)
-    plt.xlabel("pid")
-    plt.ylabel("vms")
-    plt.setp(lines, color = 'b', linewidth=1.0)
-    fig.suptitle('PID X VMS')
-
-    canvas = agg.FigureCanvasAgg(fig)
-    canvas.draw()
-    tamanho = canvas.get_width_height()
-    renderer = canvas.get_renderer()
-    raw_data = renderer.tostring_rgb()
-
-    superficie_grafico = pygame.image.fromstring(raw_data, tamanho, "RGB")
-    tela.blit(superficie_grafico, (largura_tela/2 - tamanho[0]/2, 150))
-    
-
+    grafic(tela)
+  
 
 conta_clocks = 0
 conta_segundos = 0
@@ -217,44 +187,38 @@ while not terminou:
             for q in lista:
                 if q.collidepoint(pos):
                     if q == lista[0]:
-                        conteudo_aba0()
+                        conteudo_aba1()
                         aba1 = False
                         break
                     elif q == lista[1]:
-                        conteudo_aba1()
+                        conteudo_aba2()
                         aba1 = True
                         break
                     elif q == lista[2]:
                         aba1 = False
-                        conteudo_aba2()
+                        conteudo_aba3()
                         break
                     elif q == lista[3]:
                         aba1 = False
                         aba3 = True
-                        conteudo_aba3()
+                        conteudo_aba4()
                         break
 
     if aba1 is True:
-        conteudo_aba1()
+        conteudo_aba2()
 
     if aba3 is True:
-        conteudo_aba3()
+        conteudo_aba4()
 
     if event.type == pygame.QUIT:                                   #se clicar no X fecha a tela
         terminou = True
 
     conta_clocks = conta_clocks + 1
 
-    # conteudo_aba1()
-
     if conta_clocks == 50:
         conta_segundos += 1
         conta_clocks = 0
 
-    # desenha_tela_inicial()
-    # desenha_abas()
-
-    # Mostra o tempo atualizado
     if conta_segundos == 60:
         conta_segundos = 0
         conta_minutos += 1
