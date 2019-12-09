@@ -1,4 +1,5 @@
-import os, time
+import os
+import time
 
 print(os.environ['HOMEDRIVE'])
 print(os.environ['HOMEPATH'])

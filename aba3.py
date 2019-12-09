@@ -1,6 +1,6 @@
-import psutil
-import time
 import socket
+
+import psutil
 
 
 def obtem_nome_familia(familia):

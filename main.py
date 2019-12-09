@@ -1,11 +1,15 @@
-import pygame
 import os
 import time
 import psutil
-from dicionario import *
-from cores import *
+import pygame
+from funcoes_globais import mostra_titulo
+from funcoes_globais import mostra_titulo_h2
+from aba1 import conteudo_1
 from aba3 import *
 from aba4 import grafic
+from cores import *
+from dicionario import *
+
 # from aba3 import mostra_titulo_aba3
 
 
@@ -40,12 +44,12 @@ def mostra_titulo_tela():
     tela.blit(text, textpos)
 
 
-def mostra_titulo(tela, texto, x, y):
-    font = pygame.font.Font(None, 26)
-    text = font.render(texto, 1, preto)
-    textpos = text.get_rect(centerx=x + 100, centery=y + 155)
-    textpos.left = x
-    tela.blit(text, textpos)
+# def mostra_titulo(tela, texto, x, y):
+#     font = pygame.font.Font(None, 26)
+#     text = font.render(texto, 1, preto)
+#     textpos = text.get_rect(centerx=x + 100, centery=y + 155)
+#     textpos.left = x
+#     tela.blit(text, textpos)
 
 
 def desenha_abas():
@@ -64,12 +68,12 @@ def mostra_titulo_abas(i, x):
     tela.blit(text, textpos)
 
 
-def mostra_titulo_h2(tela, texto, x, y):
-    font = pygame.font.Font('OpenSans-Regular.ttf', 14)
-    text = font.render(texto, 1, preto)
-    textpos = text.get_rect(centerx=x + 100, centery=y+150)
-    textpos.left = x
-    tela.blit(text, textpos)
+# def mostra_titulo_h2(tela, texto, x, y):
+#     font = pygame.font.Font('OpenSans-Regular.ttf', 14)
+#     text = font.render(texto, 1, preto)
+#     textpos = text.get_rect(centerx=x + 100, centery=y+150)
+#     textpos.left = x
+#     tela.blit(text, textpos)
 
 
 caminho_pasta = os.getcwd()
@@ -78,72 +82,63 @@ titulo_arquivo = ['Arquivo', 'Tamanho', 'Criado em', 'Última Modificação']
 
 
 def conteudo_aba1():
-    soma = 1
-    pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
-    mostra_titulo(tela, f'{titulo_arquivo[0]}', x=25, y=5)
-    mostra_titulo(tela, f'{titulo_arquivo[1]}', x=200, y=5)
-    mostra_titulo(tela, f'{titulo_arquivo[2]}', x=400, y=5)
-    mostra_titulo(tela, f'{titulo_arquivo[3]}', x=600, y=5)
-
-    for i in range(len(arquivo)):
-        status_arquivo = os.stat(f'{arquivo[i]}')
-        mostra_titulo_h2(tela, f'{arquivo[i]}', x=25, y=soma * 30)
-        mostra_titulo_h2(tela, f'{status_arquivo.st_size/1024:.2f} KBytes', x=200, y=soma*30)
-        mostra_titulo_h2(tela, f'{time.strftime("%d/%m/%Y     %H:%M:%S", time.localtime(status_arquivo.st_ctime))}',
-                                    x=400, y=soma * 30)
-        mostra_titulo_h2(tela, f'{time.strftime("%d/%m/%Y     %H:%M:%S", time.localtime(status_arquivo.st_mtime))}',
-                                    x=600, y=soma * 30)
-        soma += 1
-        os.times()
+    conteudo_1()
 
 
 soma_rss = sum([i["RSS"] for i in lista_dicionarios])/1024/1024/1024
 soma_vms = sum([i["VMS"] for i in lista_dicionarios])/1024/1024/1024
-soma = 0
+soma=0
+total_rss = sum([i["RSS"] for i in lista_dicionarios])/1024/1024
+total_vms = sum([i["VMS"] for i in lista_dicionarios])/1024/1024
 soma_media = 0
-titulo_conteudo_aba1 = ['Processo', 'Nome', 'Tamanho vms', 'Tamanho rss', '% vms', '% rss']
-titulo_conteudo_aba2 = ['PID', 'End.', 'Tipo', 'Status', 'Endereço Local', 'Porta L.', 'Endereço Remoto', 'Porta R.']
+titulo_conteudo_aba2 = ['Processo', 'Nome', 'Tamanho vms', 'Tamanho rss', '% vms', '% rss']
 
 
 def conteudo_aba2():
     soma_indices = 1
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
-    mostra_titulo(tela, titulo_conteudo_aba1[0], 50, -40)
-    mostra_titulo(tela, titulo_conteudo_aba1[1], 150, -40)
-    mostra_titulo(tela, titulo_conteudo_aba1[2], 320, -40)
-    mostra_titulo(tela, titulo_conteudo_aba1[3], 470, -40)
-    mostra_titulo(tela, titulo_conteudo_aba1[4], 600, -40)
-    mostra_titulo(tela, titulo_conteudo_aba1[5], 700, -40)
+    mostra_titulo(tela, f'Total de Momória Utilizada VMS: {total_vms}', 50, -40)
+    mostra_titulo(tela, f'Total de Momória Utilizada RSS: {total_rss}', 50, -50)
+    mostra_titulo(tela, titulo_conteudo_aba2[0], 50, 40)
+    mostra_titulo(tela, titulo_conteudo_aba2[1], 200, 40)
+    mostra_titulo(tela, titulo_conteudo_aba2[2], 400, 40)
+    mostra_titulo(tela, titulo_conteudo_aba2[3], 600, 40)
+    mostra_titulo(tela, titulo_conteudo_aba2[4], 800, 40)
+    mostra_titulo(tela, titulo_conteudo_aba2[5], 1000, 40)
 
     for p in psutil.process_iter():
         if p.status() == "running":
             vms = p.memory_info().vms/1024/1024
             rss = p.memory_info().rss/1024/1024
-            mostra_titulo_h2(tela, f'{p.pid}', 50, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{p.name()}', 150, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{round(vms, 2)} MB', 320, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{round(rss, 2)} MB', 470, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{round((vms/(soma_vms*1024)) * 100, 2)}%', 600, -30 + soma_indices * 22)
-            mostra_titulo_h2(tela, f'{round((rss/(soma_rss*1024)) * 100, 2)}%', 700, -30 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{p.pid}', 50, 50 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{p.name()}', 200, 50 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round(vms, 2)} MB', 400, 50 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round(rss, 2)} MB', 600, 50 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round((vms/(soma_vms*1024)) * 100, 2)}%', 800, 50 + soma_indices * 22)
+            mostra_titulo_h2(tela, f'{round((rss/(soma_rss*1024)) * 100, 2)}%', 1000, 50 + soma_indices * 22)
             soma_indices += 1
+
+
+print(round(total_rss/1024/1024))
+print(round(total_vms/1024/1024))
 
 
 
 '''                       0      1        2        3             4              5               6              7    '''
-titulo_conteudo_aba2 = ['PID', 'End.', 'Tipo', 'Status', 'Endereço Local', 'Porta L.', 'Endereço Remoto', 'Porta R.']
+titulo_conteudo_aba3 = ['PID', 'End.', 'Tipo', 'Status', 'Endereço Local', 'Porta L.', 'Endereço Remoto', 'Porta R.']
 
 
 def conteudo_aba3():
     soma_indices = 1
     pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
-    mostra_titulo(tela, titulo_conteudo_aba2[0], 50, -40)
-    mostra_titulo(tela, titulo_conteudo_aba2[1], 150, -40)
-    mostra_titulo(tela, titulo_conteudo_aba2[2], 200, -40)
-    mostra_titulo(tela, titulo_conteudo_aba2[3], 250, -40)
-    mostra_titulo(tela, titulo_conteudo_aba2[4], 350, -40)
-    mostra_titulo(tela, titulo_conteudo_aba2[5], 650, -40)
-    mostra_titulo(tela, titulo_conteudo_aba2[6], 750, -40)
-    mostra_titulo(tela, titulo_conteudo_aba2[7], 1100, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[0], 50, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[1], 150, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[2], 200, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[3], 250, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[4], 350, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[5], 650, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[6], 750, -40)
+    mostra_titulo(tela, titulo_conteudo_aba3[7], 1100, -40)
     l_pid = list(set(lista_pid))
     
     for i in range(len(l_pid)):
@@ -165,44 +160,6 @@ def conteudo_aba3():
         
         soma_indices += 1
 
-        
-def conteudo_aba3():
-    soma_indices = 1
-    pygame.draw.rect(tela, cinza, (0, 0, 1200, 800), 0)
-    import matplotlib
-    import matplotlib.pyplot as plt
-    matplotlib.use("Agg")
-    import matplotlib.backends.backend_agg as agg
-    mostra_titulo_h2(tela, "Gráfico de Processos PID x VMS", 500, -40)
-    processos_infos = []
-    for processos in psutil.process_iter():
-        processos_infos.append(
-            {"pid" :processos.pid,
-             "nome" : processos.name(),
-             "rss" : processos.memory_info().rss,
-             "vms" : processos.memory_info().vms})
-    names = [info["pid"] for info in processos_infos]
-    values = [info["vms"]/1024/1024 for info in processos_infos]
-    values_rss = [info["rss"]/1024/1024 for info in processos_infos]
-    
-    fig, axs = plt.subplots()
-    lines, = axs.plot(names, values)
-    plt.xlabel("pid")
-    plt.ylabel("vms")
-    plt.setp(lines, color = 'b', linewidth=1.0)
-    fig.suptitle('PID X VMS')
-
-    canvas = agg.FigureCanvasAgg(fig)
-    canvas.draw()
-    tamanho = canvas.get_width_height()
-    renderer = canvas.get_renderer()
-    raw_data = renderer.tostring_rgb()
-
-    superficie_grafico = pygame.image.fromstring(raw_data, tamanho, "RGB")
-    tela.blit(superficie_grafico, (0, 150))
-    
-    superficie_grafico = pygame.image.fromstring(raw_data, tamanho, "RGB")
-    tela.blit(superficie_grafico, (600, 150))
 
 def conteudo_aba4():
     mostra_titulo_h2(tela, "Gráfico de Processos PID x VMS", 500, -40)
@@ -213,8 +170,8 @@ conta_clocks = 0
 conta_segundos = 0
 conta_minutos = 0
 lista = []
-aba1 = False
-aba3 = False
+controle_aba2 = False
+controle_aba4 = False
 terminou = False
 #variável para manter a tela aberta
 while not terminou:
@@ -226,26 +183,26 @@ while not terminou:
                 if q.collidepoint(pos):
                     if q == lista[0]:
                         conteudo_aba1()
-                        aba1 = False
+                        controle_aba2 = False
                         break
                     elif q == lista[1]:
                         conteudo_aba2()
-                        aba1 = True
+                        controle_aba2 = True
                         break
                     elif q == lista[2]:
-                        aba1 = False
+                        controle_aba2 = False
                         conteudo_aba3()
                         break
                     elif q == lista[3]:
-                        aba1 = False
-                        aba3 = True
+                        controle_aba2 = False
+                        controle_aba4 = True
                         conteudo_aba4()
                         break
 
-    if aba1 is True:
+    if controle_aba2 is True:
         conteudo_aba2()
 
-    if aba3 is True:
+    if controle_aba4 is True:
         conteudo_aba4()
 
     if event.type == pygame.QUIT:                                   #se clicar no X fecha a tela
